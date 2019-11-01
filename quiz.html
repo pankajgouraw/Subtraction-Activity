@@ -10,7 +10,7 @@
       <script type="text/javascript" src="js/jquery-ui.min.js"></script>
       <script type="text/javascript" src="js/enableDragMobile.js"></script>
    </head>
-   <body >
+   <body>
       <!-- <body oncontextmenu="return false" onkeydown="return false;" onmousedown="return false;"> -->
       <div class="wrapper">
          <div id="header">
@@ -23,15 +23,17 @@
           <div class="operations">
             <div class="questionContainer">
               <div class="question border">
-                <p id=firstNo>7894</p>
-                <p><span class="sign">-</span><span id='secNo'></span></p>
-                <div class="ansContainer">
-           <!--        <p class="drop"></p>
-                  <p class="drop"></p>
-                  <p class="drop"></p>
-                  <p class="drop"></p>
-                  <p class="drop"></p>
-                  <p class="drop"></p> -->
+                <div class="questBox">
+                  <p id=firstNo></p>
+                  <p><span class="sign">-</span><span id='secNo'></span></p>
+                  <div class="ansContainer">
+             <!--        <p class="drop"></p>
+                    <p class="drop"></p>
+                    <p class="drop"></p>
+                    <p class="drop"></p>
+                    <p class="drop"></p>
+                    <p class="drop"></p> -->
+                  </div>
                 </div>
               </div>
               <div class="options border">
@@ -64,9 +66,19 @@
             <button id="check"> CHECK </button>
             <button id="next"> NEXT </button>
             <button id="reload"> RELOAD </button>
+            <button id="showAns"> SHOW ANSWER </button>
           </div>
           </div><!--innerwrapper end here -->
         </div>  <!--wrapper end here -->
+        <div class="oops">
+          <img src='img/oops.png' />
+          <h1>try again</h1>
+        </div>  
+
+              <div class="wellDone">
+          <img src='img/congrates.png' />
+          <h1>Well Done</h1>
+        </div>
       <script type="text/javascript" src="data/data.js"></script>
       <script type="text/javascript" src="js/script.js"></script>
    </body>
