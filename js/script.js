@@ -6,10 +6,12 @@ $(function() {
     $("#headerText").text(headerText);
     $("#instruction").css({color:headerInstructionColor});
     $('body').css({'background-image':bg});
-    $('#firstNo, #secNo, .sign').css({color:questColor});
-     $('.options p span').css({color:numColor});
     generateContent();
     dragDrop();
+    $('#firstNo, #secNo, .sign').css({color:questColor});
+    $('.options p span').css({color:numColor});
+    $('.sign').css({color:signColor});
+
     // function for drag and drop
   function dragDrop(){
 
@@ -21,8 +23,12 @@ $(function() {
 
       $(".drop" ).droppable({
             accept:".drag",
+            // tolerance: 'intersect',
             drop: function(event, ui) {
-             $(this).append($(ui.draggable).clone().css({color:ansColor}));
+
+               $(this).append($(ui.draggable).clone().css({color:ansColor}));
+             $(event.target).attr('data-user',ui.draggable.text());
+
              if($(this).children("span").length > 1){
                 $(this).children("span:nth-child(1)").remove(); 
              }
@@ -30,6 +36,28 @@ $(function() {
       }); 
 
   }  //end here drag and drop 
+
+    // drag carry value
+    function dragCarry(){
+      $('.dragCarry').draggable({
+            revert: 'invalid',
+            snapMode: 'inner',
+            helper: 'clone'
+      })
+
+      $('.carryDropContainer').droppable({
+        accept : '.dragCarry',
+        drop: function(event, ui) {
+                $(this).append($(ui.draggable).clone());
+                if ($(this).children("span").length > 1) {
+                    $(this).children("span:nth-child(1)").remove();
+                }
+                $('#clearCarry').show();
+        }
+
+      })
+    }  // end function drag carry
+    dragCarry()
 
   function generateContent(){
         // generate random numbers
@@ -40,29 +68,66 @@ $(function() {
         carryRandA = Array.from(randA.toString(), Number);
         carryRandB = Array.from(randB.toString(), Number);
 
-        $('#firstNo').html(randA);
-        $('#secNo').html(randB);
+        //generate span tag for numbers
+        carrySpanA = '';
+        carrySpanB = '';
+        
+
+        //add span tag to the number
+        $.each(carryRandA, function(i,value){
+            var spanA = `<span>${value}</span>`
+            carrySpanA += spanA;
+        }); 
+
+        // add span tag to second number
+        $.each(carryRandB, function(i,value){
+            var spanB = `<span>${value}</span>`
+            carrySpanB += spanB;
+        }); 
+
+
+        $('#firstNo').html(carrySpanA);
+        $('#secNo').html(carrySpanB);
 
         // append carried value
         result = randA - randB;
 
+        // console.log('random A ', carryRandA)
+        // console.log('random B ', carryRandB)
+
+       // create drop container for carry
+        for(let i=carryRandA.length-1; i>=0; i--){
+            let x =$('#firstNo span')[i];
+            $(x).append(`<span class='carryDropContainer'></span>`);
+        }
+
+
+
         // generate drop box 
+        let resultArray = Array.from(result.toString(), Number);
         let dropTag='';
         for(let i = 0; i<result.toString().length; i++){
-           let pTag = '<p class="drop"></p>';
+           let pTag = `<p class="drop" data-original="${resultArray[i]}" data-user=' '></p>`;
            dropTag  += pTag;
         }
         $('.ansContainer').html(dropTag);
-  } //end generatecontent function
+  }
 
 
   $('#next').click(function(){
+    $('.placeValueContainer').empty();
     chance =0;
      $(this).hide();
      $('#check').fadeIn();
      $('#showAns').hide();
+     $('.dragCarry').removeAttr('style');
      generateContent();
      dragDrop();
+     // $('#firstNo > span > span').hide();
+      dragCarry()
+      generatePlaceValue()
+      $('#clearCarry').hide();
+
   });
 
   $('#reload').click(function(){
@@ -73,6 +138,7 @@ $(function() {
  
   $('#check').click(function(){
     // console.log('chance', chance)
+    showError();
      let dropTag = $('.ansContainer p');
      let userInput = '';
      $.each(dropTag , function(i, value){
@@ -121,6 +187,8 @@ $(function() {
   
 
   function oopsTryAgain(){
+      let audio1 = new Audio('audio/tryAgain.mp3');
+      audio1.play(); 
       $('.oops').removeClass('zoomOut');
       $('.oops').addClass('animated zoomIn oopsHW');
 
@@ -129,15 +197,16 @@ $(function() {
         $('.oops').addClass('zoomOut')
         setTimeout(function(){
         $('.oops').removeClass('oopsHW');
-        $('.ansContainer .drop').empty();
+        // $('.ansContainer .drop').empty();
         },500);
       },2000)
   }
 
 function wellDone(){
+      let audio1 = new Audio('audio/welldone.mp3');
+      audio1.play(); 
       $('.wellDone').removeClass('zoomOut');
       $('.wellDone').addClass('animated zoomIn oopsHW');
-
       setTimeout(function(){
         $('.wellDone').removeClass('zoomIn');
         $('.wellDone').addClass('zoomOut')
@@ -150,7 +219,10 @@ function wellDone(){
 
   $('#showAns').click(function(){
     // generate answer
-    $(this).hide();
+           $('.carryDropContainer').empty();
+       $('#clearCarry').hide();
+        $(this).hide();
+        $('#firstNo > span > span').show();
         let dropTag = '';
         let ansArray = Array.from(result.toString(), Number);
         // console.log('result',result);
@@ -161,5 +233,53 @@ function wellDone(){
         }
         $('.ansContainer').html(dropTag);
   })
+
+
+
+// clear carry function
+$('#clearCarry').click(function(){
+  $('.carryDropContainer').empty();
+  $(this).hide();
+});
+// end clear carry function
+
+// function to generate the place value
+  function generatePlaceValue(){
+    let Arr = $('.ansContainer > .drop');
+    console.log(Arr);
+    for(let i= 0; i < Arr.length; i++){
+       if(i==0){$('.placeValueContainer').prepend(`<p class="placeValue">o</p>`);} 
+       if(i==1){$('.placeValueContainer').prepend(`<p class='placeValue'>t</p>`);} 
+       if(i==2){$('.placeValueContainer').prepend(`<p class='placeValue'>h</p>`);} 
+       if(i==3){$('.placeValueContainer').prepend(`<p class='placeValue'>th</p>`);} 
+       if(i==4){$('.placeValueContainer').prepend(`<p class='placeValue'>t.th</p>`);} 
+       if(i==5){$ ('.placeValueContainer').prepend(`<p class='placeValue'>l</p>`);} 
+       if(i==6){$ ('.placeValueContainer').prepend(`<p class='placeValue'>tl</p>`);} 
+       if(i==7){$ ('.placeValueContainer').prepend(`<p class='placeValue'>c</p>`);} 
+       if(i==8){$ ('.placeValueContainer').prepend(`<p class='placeValue'>tc</p>`);} 
+    }
+  } 
+  generatePlaceValue()
+  // function to generate the place value end
+
+
+function showError(){
+  let dataAttr = $('.drop');
+  console.log(dataAttr)
+  $.each(dataAttr, function(index, value){
+    let dataUser = $(value).attr('data-user');
+    let dataOriginal = $(value).attr('data-original');
+    if(dataUser == dataOriginal){
+      $(value).css({'borderColor':'#fff'})
+    }else{
+      $(value).css({'borderColor':errorColor})
+    }
+
+  })
+}
+
+$('#reset').click(function(){
+  $('.drop').empty().attr('data-user', '').css({'borderColor':'#000'});
+});
 
 });   // end document function 
