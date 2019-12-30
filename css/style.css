@@ -8,6 +8,19 @@ body {
 	background-repeat: no-repeat;
     caret-color:transparent;
 }
+
+/*#firstNo > span > .cross{
+height: inherit;
+width: inherit;top: -8%;
+color:red;
+font-size: 55px;
+font-weight: normal;
+transform: rotate(45deg);
+transform-origin: center;
+top: -6%;
+
+}
+*/
 #clearCarry{
     display: none;
 }
@@ -44,6 +57,7 @@ text-align: center;
 }
 .questBox {
     text-align: right;
+    font-weight: bold;
 }
 .oops img{
 width: 200px;
@@ -79,7 +93,7 @@ margin-bottom: 30px;
 #showAns{
     display: none;
 }
-.carryContainer p:first-child {
+/*.carryContainer p:first-child {
     margin-right: 10px;
 }
 .carryContainer .dragCarry{
@@ -88,23 +102,22 @@ position: absolute !important;
 top: 23%;
 left: 37%;
 cursor:pointer;
-/*transform: translate(-50%, -50%);*/
-}
+/*transform: translate(-50%, -50%);
+}*/
 
-.carryContainer .carriedValue{
+/*.carryContainer .carriedValue{
     border: 1px solid #000;
     height: 30px;
     width:30px;
     position: relative; 
     font-weight: bold;
-}
+}*/
 
 
 .placeValueContainer{
 display: flex;
 justify-content: flex-end;
-margin-top: 10px;
-margin-bottom: 10px;
+margin-top: 0px;
 margin-right: -17px;
 }
 .placeValueContainer .placeValue{
@@ -121,29 +134,28 @@ font-weight: bold;
 }
 
 #secNo{}
-
+/*
 .carryContainer p{color:#000;}
 
 .carryContainer{
 align-items: center;
 display: flex;
-/*max-width: 542px;*/  
+max-width: 542px;  
 justify-content: left;
 margin: auto;
-/*margin-left: 62px;*/
 padding-bottom: 10px;
 align-items: left;
 
-}
+}*/
 
 #header .logo {margin: 0px auto;display: flex;align-items: center;justify-content: flex-end;}
 #header {padding: 15px; }
 #innerWrapper{  max-width: 960px;  margin: 15px;}
 #firstNo > span > span {
 display: inline-block;
-left: -53px;
+left: 0px;
 position: absolute;
-top: -9px;
+top: -15px;
 font-size: 19px;
 height: 50px;
 width: 50px;
@@ -190,11 +202,12 @@ padding-top: 0px;
 /*#secNo, #firstNo{letter-spacing: 20px;}*/
 #secNo > span{ width: 50px; display: inline-block; text-align: center; border:1px solid transparent;}
 #firstNo > span {position: relative; width: 50px; display: inline-block; text-align: center; border:1px solid transparent;}
-#firstNo > span > span.carryDropContainer{
+/*#firstNo > span > span.carryDropContainer{
 font-size: 18px;
 text-align: center;
 font-weight: bold;
-}
+color: red;
+}*/
 .questionContainer .question p{font-size: 50px;}
 .questionContainer .options{}
 .options{ margin-top: 10px;padding-top: 10px;padding-bottom: 10px;display: flex; justify-content: center;}
@@ -258,21 +271,29 @@ flex-direction: column;width:138px;
 .resultContainer{width:80px;}
 .resulNav{width:103px;}
 .resultContainer .output{height: 40px;}
-.carryContainer{ justify-content: flex-start;
+/*.carryContainer{ justify-content: flex-start;
 flex-wrap: wrap;
-margin-left: 0px;}
+margin-left: 0px;}*/
 #secNo > span{ width: 30px; }
 #firstNo > span { width: 30px;}
 
-#firstNo > span > span.carryDropContainer{
-    width: 30px;left: -31px;top: -19px;
-}
+/*#firstNo > span > span.carryDropContainer{
+    width: 30px;left: 0px;top: -16px;font-size: 16px;
+}*/
 #firstNo > span > span.placeValue{
     width: 30px;
 }
 .placeValueContainer{
     margin-right: -10px;
 }
+
+/*#firstNo > span > .cross{
+top: -7%;
+font-size: 30px;
+}*/
+
+
+
 }
 
 
@@ -285,10 +306,10 @@ margin-left: 0px;}
 #header{padding-bottom:0px; margin-bottom:0px;}
 .Example p{font-size: 15px;}
 #header .logo h3 {padding-right: 0px;}
-.carryContainer{
+/*.carryContainer{
     justify-content: flex-start;
 }
-
+*/
 .options{ flex-wrap: wrap;}
 .ansContainer{ flex-wrap: wrap;}
 .operations{

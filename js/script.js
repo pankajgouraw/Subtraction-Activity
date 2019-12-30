@@ -37,27 +37,6 @@ $(function() {
 
   }  //end here drag and drop 
 
-    // drag carry value
-    function dragCarry(){
-      $('.dragCarry').draggable({
-            revert: 'invalid',
-            snapMode: 'inner',
-            helper: 'clone'
-      })
-
-      $('.carryDropContainer').droppable({
-        accept : '.dragCarry',
-        drop: function(event, ui) {
-                $(this).append($(ui.draggable).clone());
-                if ($(this).children("span").length > 1) {
-                    $(this).children("span:nth-child(1)").remove();
-                }
-                $('#clearCarry').show();
-        }
-
-      })
-    }  // end function drag carry
-    dragCarry()
 
   function generateContent(){
         // generate random numbers
@@ -67,6 +46,24 @@ $(function() {
         // convert random number into array
         carryRandA = Array.from(randA.toString(), Number);
         carryRandB = Array.from(randB.toString(), Number);
+  // console.log('rand old B', carryRandB);
+  // console.log('rand old A', carryRandB);
+
+        $.each(carryRandA, function(index,value){
+                if(carryRandA[index] < carryRandB[index]){
+                   if(carryRandB[index] == 9){
+                    let randless = Math.ceil(Math.random() *9)
+                    carryRandA[index] = 9
+                    carryRandB[index] = randless;
+                   }
+                   else{
+                    carryRandA[index] = Math.ceil(Math.random() * (9 - carryRandB[index])) + carryRandB[index];
+                   }
+              }
+        })
+
+        console.log('new  rand A', carryRandA);
+        console.log('new  rand B', carryRandB);
 
         //generate span tag for numbers
         carrySpanA = '';
@@ -88,20 +85,9 @@ $(function() {
 
         $('#firstNo').html(carrySpanA);
         $('#secNo').html(carrySpanB);
-
+         console.log(carryRandA.toString().replace(',',''));
         // append carried value
         result = randA - randB;
-
-        // console.log('random A ', carryRandA)
-        // console.log('random B ', carryRandB)
-
-       // create drop container for carry
-        for(let i=carryRandA.length-1; i>=0; i--){
-            let x =$('#firstNo span')[i];
-            $(x).append(`<span class='carryDropContainer'></span>`);
-        }
-
-
 
         // generate drop box 
         let resultArray = Array.from(result.toString(), Number);
@@ -170,6 +156,7 @@ $(function() {
           chance++;
           
           return false;
+          
         }
         
         $(this).hide();
@@ -219,8 +206,6 @@ function wellDone(){
 
   $('#showAns').click(function(){
     // generate answer
-           $('.carryDropContainer').empty();
-       $('#clearCarry').hide();
         $(this).hide();
         $('#firstNo > span > span').show();
         let dropTag = '';
@@ -234,14 +219,6 @@ function wellDone(){
         $('.ansContainer').html(dropTag);
   })
 
-
-
-// clear carry function
-$('#clearCarry').click(function(){
-  $('.carryDropContainer').empty();
-  $(this).hide();
-});
-// end clear carry function
 
 // function to generate the place value
   function generatePlaceValue(){
@@ -270,7 +247,7 @@ function showError(){
     let dataUser = $(value).attr('data-user');
     let dataOriginal = $(value).attr('data-original');
     if(dataUser == dataOriginal){
-      $(value).css({'borderColor':'#fff'})
+      $(value).css({'borderColor':'#000'})
     }else{
       $(value).css({'borderColor':errorColor})
     }
