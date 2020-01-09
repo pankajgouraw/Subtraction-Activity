@@ -225,7 +225,7 @@ cursor:pointer;
 overflow: hidden;
 }
 
-.ansContainer{border-top: 2px solid #000;margin-top: 10px;padding-top: 10px;display: flex;justify-content: end;}
+.ansContainer{border-top: 2px solid #000;margin-top: 10px;padding-top: 10px;display: flex;justify-content: flex-end;}
 .ansContainer p{
 border: 1px solid #000;
 width: 50px;

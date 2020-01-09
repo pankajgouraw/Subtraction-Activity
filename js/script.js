@@ -42,15 +42,17 @@ $(function() {
         // generate random numbers
         let randA = Math.ceil(Math.random() * (maxA - minA)+1) + minA;
         let randB = Math.ceil(Math.random() * (maxB - minB)+1) + minB;
-
+        console.log('randowm generated A', randA);
+        console.log('randowm generated B', randB);
         // convert random number into array
         carryRandA = Array.from(randA.toString(), Number);
         carryRandB = Array.from(randB.toString(), Number);
+
   // console.log('rand old B', carryRandB);
   // console.log('rand old A', carryRandB);
 
         $.each(carryRandA, function(index,value){
-                if(carryRandA[index] < carryRandB[index]){
+                if(carryRandA[index] <= carryRandB[index]){
                    if(carryRandB[index] == 9){
                     let randless = Math.ceil(Math.random() *9)
                     carryRandA[index] = 9
@@ -85,14 +87,22 @@ $(function() {
 
         $('#firstNo').html(carrySpanA);
         $('#secNo').html(carrySpanB);
-         console.log(carryRandA.toString().replace(',',''));
+         // console.log(carryRandA.toString().replace(',',''));
         // append carried value
-        result = randA - randB;
-
+       randA = carryRandA.toString().replace(/,/g,'');
+       randB = carryRandB.toString().replace(/,/g,'');
+       randA = Number(randA);
+       randB = Number(randB);
+       result = randA - randB;
+        console.log('randA', randA);
+        console.log('randB', randB);
+       console.log("result", result);
         // generate drop box 
         let resultArray = Array.from(result.toString(), Number);
         let dropTag='';
+        console.log('resultArray',resultArray)
         for(let i = 0; i<result.toString().length; i++){
+
            let pTag = `<p class="drop" data-original="${resultArray[i]}" data-user=' '></p>`;
            dropTag  += pTag;
         }
